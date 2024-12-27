@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include<string.h>
+#define MAX_STUDENTS 5  // Max number of students
+
+// Function to calculate the grade based on the score
+char calculateGrade(float score) {
+    if (score >= 90) return 'A';
+    else if (score >= 80) return 'B';
+    else if (score >= 70) return 'C';
+    else if (score >= 60) return 'D';
+    else return 'F';
+}
+
+int main() {
+    int i;
+    float score, totalScore = 0, averageScore;
+    char grade;
+    char studentName[100];
+
+    // Input student details
+    printf("Enter the number of students (max %d): ", MAX_STUDENTS);
+    int numStudents;
+    scanf("%d", &numStudents);
+    if (numStudents > MAX_STUDENTS) {
+        printf("You can only input data for %d students.\n", MAX_STUDENTS);
+        return 1;
+    }
+
+    printf("\nStudent Grade Management System\n");
+    printf("===============================\n");
+
+    // Arrays to store student names and their grades
+    char studentNames[MAX_STUDENTS][100];
+    float studentScores[MAX_STUDENTS];
+    char studentGrades[MAX_STUDENTS];
+
+    // Input student names and scores
+    for (i = 0; i < numStudents; i++) {
+        printf("Enter name of student %d: ", i + 1);
+        getchar();  // to consume the newline left by scanf
+        fgets(studentNames[i], sizeof(studentNames[i]), stdin);
+        studentNames[i][strcspn(studentNames[i], "\n")] = '\0'; // remove newline character
+
+        printf("Enter grade for %s: ", studentNames[i]);
+        scanf("%f", &score);
+        
+        studentScores[i] = score;
+        studentGrades[i] = calculateGrade(score);
+        totalScore += score;
+    }
+
+    // Output student details and calculate average
+    printf("\nStudent Grades Report\n");
+    printf("======================\n");
+    printf("Name\t\tScore\tGrade\n");
+    printf("----------------------------\n");
+
+    for (i = 0; i < numStudents; i++) {
+        printf("%s\t\t%.2f\t%c\n", studentNames[i], studentScores[i], studentGrades[i]);
+    }
+
+    averageScore = totalScore / numStudents;
+    printf("\nAverage score of all students: %.2f\n", averageScore);
+    printf("Average grade: %c\n", calculateGrade(averageScore));
+
+    return 0;
+}
